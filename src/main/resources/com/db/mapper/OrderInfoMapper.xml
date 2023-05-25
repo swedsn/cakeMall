@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.db.mapper.OrderInfoMapper">
+    <insert id="addOrder" useGeneratedKeys = "true" keyProperty = "orderID" keyColumn="orderID">
+        insert into orderinfo(ORDERID, ORDERTELEPHONE, ORDERPRICE, ORDERSTATUS, ORDERCONTENTS, ORDERTIME, ORDERADDRESS)
+            value (#{orderID}, #{orderTelephone},#{orderPrice},  #{orderStatus}, #{orderContents},  #{orderTime} ,#{orderAddress})
+    </insert>
+    <select id="selectOrderInfoByCondition" resultType="com.db.entity.OrderInfo">
+        select * from orderinfo
+        <where>
+            <if test="orderStatus != null and orderStatus != ''">
+                orderStatus like concat('%',#{orderStatus},'%')
+            </if>
+            <if test="orderID != null and orderID != ''">
+                and orderID like concat('%',#{orderID},'%')
+            </if>
+        </where>
+    </select>
+
+<!--    <select id="selectOrderFromUser" resultType="com.db.entity.OrderInfo">-->
+<!--        select * from orderinfo where orderTelephone = #{telephone}-->
+<!--            <if test="text != null and text != ''">-->
+<!--                and (orderStatus like concat('%',#{text},'%')-->
+<!--                or orderAmount like concat('%',#{text},'%')-->
+<!--                or orderPrice like concat('%',#{text},'%')-->
+<!--                or orderPaytype like concat('%',#{text},'%')-->
+<!--                or orderReservetime like concat('%',#{text},'%')-->
+<!--                or orderRealtime like concat('%',#{text},'%'))-->
+<!--            </if>-->
+
+<!--    </select>-->
+
+</mapper>

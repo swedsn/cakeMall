@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    namesapce: 名称空间，名字
+-->
+
+<mapper namespace="com.db.mapper.UserMapper">
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="telephone">
+       insert into `user` (`telephone`, passwd, `username`, `sex`,  `address`)
+       values(#{telephone}, #{passwd}, #{username}, #{sex}, #{address})
+    </insert>
+
+    <select id="selectUsersByName" resultType="com.db.entity.User">
+        select * from user
+        <where>
+            <if test="username != null and username != ''">
+                username = #{username}
+            </if>
+        </where>
+    </select>
+    <select id="selectUserByPhone" resultType="com.db.entity.User">
+        select * from user <where>
+        <if test="telephone != null and telephone != ''">
+            telephone=#{telephone}
+        </if>
+    </where>
+    </select>
+    <select id="selectUsersByCondition" resultType="com.db.entity.User">
+        select * from user
+        <where>
+        <if test="telephone != null and telephone != ''">
+            and telephone like concat('%',#{telephone},'%')
+        </if>
+        <if test="username != null and username != ''">
+            and username like concat('%',#{username},'%')
+        </if>
+        <if test="address != null and address != ''">
+            and address like concat('%',#{address},'%')
+        </if>
+        </where>
+    </select>
+</mapper>

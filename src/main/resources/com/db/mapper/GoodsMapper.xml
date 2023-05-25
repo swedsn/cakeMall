@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.db.mapper.GoodsMapper">
+    <insert id="addGoods">
+        insert into goods (goodsID, goodsName, goodsPrice, goodsCategory, goodsLogo, goodsExist, goodsDescription, goodsSale)
+            value (#{goodsID}, #{goodsName}, #{goodsPrice}, #{goodsCategory}, #{goodsLogo}, #{goodsExist}, #{goodsDescription}, 0)
+    </insert>
+
+    <select id="selectGoodsByCondition" resultType="com.db.entity.Goods">
+        select * from goods
+        <where>
+            <if test="goodsName != null and goodsName != ''">
+                and goodsName like concat('%',#{goodsName},'%')
+            </if>
+            <if test="goodsCategory != null and goodsCategory != ''">
+                and goodsCategory like concat('%',#{goodsCategory},'%')
+            </if>
+        </where>
+    </select>
+</mapper>
